@@ -1,1 +1,4 @@
-console.log('sami')
+const {getMatches} = require('./leagues')
+
+
+module.exports={getMatches}
