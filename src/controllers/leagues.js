@@ -20,6 +20,11 @@ const getMatches = (req, res) => {
     .catch((err) => console.error("error:" + err));
 };
 
+<<<<<<< HEAD
+
+
+module.exports = { getMatches };
+=======
 const getLeagueMatches = (req, res) => {
   fetch(url, options)
     .then((response) => response.json())
@@ -48,3 +53,4 @@ const getTopLegues = (matches) => {
 };
 
 module.exports = { getMatches, getLeagueMatches };
+>>>>>>> 93799032dae6463000b90e7afb825646964898e2
