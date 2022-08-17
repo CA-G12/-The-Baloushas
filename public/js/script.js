@@ -1,73 +1,65 @@
+const containerMatches = document.querySelector(`.container-matches`);
+const getData = (endPoint) => {
+  fetch(endPoint)
+    .then((response) => response.json())
+    .then((response) => {
+      buildMainList(response);
+    })
+    .catch((err) => console.error(err));
+};
 
-{
-  /* <section class="container-matches">
-<div class="card">
-  <div class="card-result-part">
-    <p class="leg-name">SPAIN: LA LIGA</p>
-    <h2 class="teams-name">BARCELONA VS RAYO VALLECANO</h2>
-    <img class="result" src="./result-match.jpeg" alt="" />
-    <p class="date-match">22:00, Saturday, August 13</p>
-  </div>
+const buildMainList = (response) => {
+  response.forEach((element) => {
+    renderCard(element);
+  });
+};
 
-  <div class="card-video-part">
-    <h2>Watch the match summary</h2>
-  
-  </div>
-</div>
-</section> */
-}
+const renderCard = (node) => {
+  const card = document.createElement("div");
+  card.setAttribute("class", "card");
+  containerMatches.appendChild(card);
 
-fetch("/getMatches")
-  .then((response) => response.json())
-  .then((response) => {
-    
-    console.log( response);
-    const containerMatches = document.querySelector(`.container-matches`);
+  //!
+  const cardResult = document.createElement("div");
+  cardResult.setAttribute("class", "card-result-part");
+  card.appendChild(cardResult);
 
+  //!
+  const leagueName = document.createElement("p");
+  leagueName.setAttribute("class", "leg-name");
+  leagueName.textContent = node.competition.name;
+  cardResult.appendChild(leagueName);
 
-    //!
-    response= response.slice(60,75)
-    response.forEach((element , i ) => {
+  //!
+  const teamsName = document.createElement("h2");
+  teamsName.setAttribute("class", "teams-name");
+  teamsName.textContent = node.title;
+  cardResult.appendChild(teamsName);
 
-    const card = document.createElement("div");
-    card.setAttribute("class", "card");
-    containerMatches.appendChild(card);
+  //!
+  const resultimg = document.createElement("img");
+  resultimg.setAttribute("class", "result");
+  resultimg.src = `${node.thumbnail}`;
+  cardResult.appendChild(resultimg);
+  //!
+  const dateMatch = document.createElement("p");
+  dateMatch.setAttribute("class", "date-match");
+  dateMatch.textContent = node.date;
+  cardResult.appendChild(dateMatch);
+  //!
 
-    //!
-    const cardResult = document.createElement("div");
-    cardResult.setAttribute("class", "card-result-part");
-    card.appendChild(cardResult);
+  const videoContainer = document.createElement("div");
+  videoContainer.setAttribute("class", "card-video-part");
+  videoContainer.innerHTML = `${node.embed}`;
+  card.appendChild(videoContainer);
+};
 
-    //!
-    const leagueName = document.createElement("p");
-    leagueName.setAttribute("class", "leg-name");
-    leagueName.textContent = response[i].competition.name;
-    cardResult.appendChild(leagueName);
+getData("/getMatches");
 
-    //!
-    const teamsName = document.createElement("h2");
-    teamsName.setAttribute("class", "teams-name");
-    teamsName.textContent = response[i].title;
-    // console.log('*******teams' ,response[i].title )
-    cardResult.appendChild(teamsName);
-
-    //!
-    const resultimg = document.createElement("img");
-    resultimg.setAttribute("class", "result");
-    resultimg.src=`${response[i].thumbnail}`
-    cardResult.appendChild(resultimg);
-    //!
-    const dateMatch = document.createElement("p");
-    dateMatch.setAttribute("class", "date-match");
-    dateMatch.textContent = response[i].date;
-    cardResult.appendChild(dateMatch);
-    //!
-
-    const videoContainer = document.createElement("div");
-    videoContainer.setAttribute("class", "card-video-part");
-    videoContainer.innerHTML =`${response[i].embed}`
-    card.appendChild(videoContainer);
-  })
-  }).catch((err) => console.error(err));
-
-
+const sideMenu = document.querySelectorAll(`ul li p`);
+sideMenu.forEach((ele) => {
+  ele.addEventListener("click", () => {
+    containerMatches.textContent = "";
+    getData(`/getLeagueMatches/${ele.textContent}`);
+  });
+});
