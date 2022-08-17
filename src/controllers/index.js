@@ -1,4 +1,4 @@
-const {getMatches} = require('./leagues')
+const {getMatches,getLeagueMatches} = require('./leagues')
 
 
-module.exports={getMatches}
+module.exports={getMatches,getLeagueMatches}
