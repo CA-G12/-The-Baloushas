@@ -21,17 +21,18 @@
 ---
 - Aِs a User I wanna See the results of the latest matches .
 - Aِs a User I wanna See a summary of the events of the match as a video .
-- As a User When I choosing a league, matches must be filtered .
+- As a User When I choose a league, matches must be filtered .
 
 ---
 
 
 
-## The way of installation the project to run it locally.
+## To run the application locally :
 ---
 - git clone `https://github.com/CA-G12/Baloushas.git`
-- cd name of Baloushas
-- go live server
+- cd Baloushas
+- npm install
+- npm run dev
 ---
 
 ## Technology we used and the purpose
