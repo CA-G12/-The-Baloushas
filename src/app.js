@@ -7,14 +7,20 @@ const { clientErrors, serverErrors } = require('./controllers/error');
 const app = express();
 app.set('port', process.env.PORT || 3001);
 
+
 app.use(express.json());
 
-app.use(
-  express.static(path.join(__dirname, '..', 'public'))
-);
+app.use(express.urlencoded({ extended: false }));
+
+ app.use(
+   express.static(path.join(__dirname, '..', 'public'))
+ );
 
 app.use(router);
-
+app.use(router, (req, res, next) => {
+  console.log('Request Type:', req.method)
+  next()
+})
 
 
 module.exports = app;
