@@ -1,14 +1,20 @@
 const containerMatches = document.querySelector(`.container-matches`);
+const nextBtn = document.querySelector("#next");
+const prevBtn = document.querySelector("#prev");
+prevBtn.disabled = true;
+let start = 7;
 const getData = (endPoint) => {
   fetch(endPoint)
     .then((response) => response.json())
     .then((response) => {
+      localStorage.setItem("allmatches", JSON.stringify(response));
       buildMainList(response);
     })
     .catch((err) => console.error(err));
 };
 
 const buildMainList = (response) => {
+  console.log(response)
   response.forEach((element) => {
     renderCard(element);
   });
@@ -62,4 +68,49 @@ sideMenu.forEach((ele) => {
     containerMatches.textContent = "";
     getData(`/getLeagueMatches/${ele.textContent}`);
   });
+});
+
+nextBtn.addEventListener("click", () => {
+  prevBtn.disabled = false;
+  containerMatches.textContent = "";
+  let matches = localStorage.getItem("allmatches");
+  matches = JSON.parse(matches);
+
+  if (matches.length <= 7) {
+    buildMainList(matches);
+
+    return;
+  }
+
+  if (start + 7 < matches.length) {
+    buildMainList(matches.slice(start, start + 7));
+    start += 7;
+  } else {
+    buildMainList(matches.slice(start));
+
+    nextBtn.disabled = true;
+  }
+});
+
+prevBtn.addEventListener("click", () => {
+  let matches = localStorage.getItem("allmatches");
+  matches = JSON.parse(matches);
+
+  if (matches.length <= 7) {
+    buildMainList(matches);
+
+    return;
+  }
+
+  if (start - 14 >= 0) {
+    if (nextBtn.disabled) {
+      nextBtn.disabled = false;
+    }
+    containerMatches.textContent = "";
+    start -= 7;
+    buildMainList(matches.slice(start - 7, start));
+    if (start - 7 === 0) {
+      prevBtn.disabled = true;
+    }
+  }
 });
