@@ -8,7 +8,7 @@ const getData = (endPoint) => {
     .then((response) => response.json())
     .then((response) => {
       localStorage.setItem("allmatches", JSON.stringify(response));
-      buildMainList(response);
+      buildMainList(response.slice(0,7));
     })
     .catch((err) => console.error(err));
 };
