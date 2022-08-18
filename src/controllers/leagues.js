@@ -1,14 +1,19 @@
 const path = require("path");
 const fetch = require("node-fetch");
 const { json } = require("express");
+require('dotenv').config()
+
 
 const url = "https://free-football-soccer-videos1.p.rapidapi.com/v1/";
 
 const options = {
   method: "GET",
   headers: {
-    "X-RapidAPI-Key": "8cb17f407cmsh5da2090b6ffbac0p13821ejsn48ad67b6ea9b",
-    "X-RapidAPI-Host": "free-football-soccer-videos1.p.rapidapi.com",
+    // "X-RapidAPI-Key":  "8cb17f407cmsh5da2090b6ffbac0p13821ejsn48ad67b6ea9b",
+    
+    "X-RapidAPI-Key": process.env.API_KEY,
+    "X-RapidAPI-Host": "free-football-soccer-videos1.p.rapidapi.com"
+
   },
 };
 
@@ -24,13 +29,13 @@ const getMatches = (req, res) => {
 };
 
 const getLeagueMatches = (req, res) => {
- console.log(req.params)
+  console.log(req.params)
   let keys = {
-    'Premier League':"ENGLAND: Premier League",
-   'La Liga':"SPAIN: La Liga",
-   'Serie A': "ITALY: Serie A",
-    'Bundesliga':"GERMANY: Bundesliga",
-     'Ligue 1': "FRANCE: Ligue 1"
+    'Premier League': "ENGLAND: Premier League",
+    'La Liga': "SPAIN: La Liga",
+    'Serie A': "ITALY: Serie A",
+    'Bundesliga': "GERMANY: Bundesliga",
+    'Ligue 1': "FRANCE: Ligue 1"
   }
   fetch(url, options)
     .then((response) => response.json())
